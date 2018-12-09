@@ -48,8 +48,8 @@ func parseClaims(claims []string) map[int]map[int]int {
 			if _, ok := fabric[n]; !ok {
 				fabric[n] = map[int]int{}
 			}
-			for m := y; m < y+h; m++ {
-				fabric[n][m]++
+			for o := y; o < y+h; o++ {
+				fabric[n][o]++
 			}
 		}
 	}
