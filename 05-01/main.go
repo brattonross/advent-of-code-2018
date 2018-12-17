@@ -8,7 +8,6 @@ import (
 type unit struct {
 	utype    byte
 	polarity polarity
-	reacted  bool
 }
 
 func (u unit) String() string {
@@ -38,18 +37,34 @@ func main() {
 			u += 0x20
 			p = upper
 		}
-		units = append(units, unit{u, p, false})
+		units = append(units, unit{u, p})
 	}
 
-	// Remove reacting units
-	log.Println(react(units))
+	for {
+		removed := 0
+		for i := range units {
+			j := i - removed
+			if j == len(units)-1 {
+				continue
+			}
+			if react(units[j], units[j+1]) {
+				units = removeUnits(units, j)
+				removed += 2
+			}
+		}
+		if removed == 0 {
+			break
+		}
+	}
+
+	log.Println(units)
 }
 
-func react(units []unit) int {
-	remaining := 0
-	for i := 0; i < len(units); i++ {
+// Determines if two units react together.
+func react(a unit, b unit) bool {
+	return a.utype == b.utype && a.polarity != b.polarity
+}
 
-	}
-
-	return remaining
+func removeUnits(u []unit, i int) []unit {
+	return append(u[:i], u[i+2:]...)
 }
