@@ -41,23 +41,23 @@ func main() {
 	}
 
 	for {
-		removed := 0
+		reacted := false
 		for i := range units {
-			j := i - removed
-			if j == len(units)-1 {
+			if i == len(units)-1 {
 				continue
 			}
-			if react(units[j], units[j+1]) {
-				units = removeUnits(units, j)
-				removed += 2
+			if react(units[i], units[i+1]) {
+				units = removeUnits(units, i)
+				reacted = true
+				break
 			}
 		}
-		if removed == 0 {
+		if !reacted {
 			break
 		}
 	}
 
-	log.Println(units)
+	log.Println(len(units))
 }
 
 // Determines if two units react together.
